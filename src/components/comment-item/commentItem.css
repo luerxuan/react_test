@@ -1,0 +1,17 @@
+.handle{
+  position: absolute;
+  top: 2px;
+  right: 10px;
+  border: 1px solid #cccccc;
+  border-radius: .25rem;
+  padding: 0 .25rem;
+}
+.handle a{
+  text-decoration: none;
+}
+.user{
+  font-size: 1.5rem;
+}
+.centence{
+  padding-left: 2rem;
+}
