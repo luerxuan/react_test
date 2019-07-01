@@ -1,12 +1,8 @@
 import React,{Component} from 'react'
-import PropTypes from 'prop-types'
 import axios from 'axios'
+import PubSub from 'pubsub-js'
 
 export default class Main extends Component{
-
-    static propTypes = {
-        searchName: PropTypes.string.isRequired
-    }
 
     state = {
         initView: true,
@@ -15,31 +11,33 @@ export default class Main extends Component{
         errorMsg: null
     }
 
-    // 当组件接收到新的属性时调用
-    componentWillReceiveProps(newProps, nextContext) {
-        const {searchName} = newProps;
-        this.setState({
-            initView: false,
-            loading: true
-        })
-        const url = `https://api.github.com/search/users?q=${searchName}`;
-        axios.get(url)
-            .then(response => {
-                const result = response.data;
-                const users = result.items.map(item => {
-                    return {name: item.login,url: item.html_url, avatarUrl: item.avatar_url}
-                })
-                this.setState({
-                    loading: false,
-                    users
-                })
+    componentDidMount() {
+        // 订阅消息
+        PubSub.subscribe('search', (msg, searchName) => {
+            this.setState({
+                initView: false,
+                loading: true
             })
-            .catch(error => {
-                this.setState({
-                    loading: false,
-                    errorMsg: error.message
+            const url = `https://api.github.com/search/users?q=${searchName}`;
+            axios.get(url)
+                .then(response => {
+                    const result = response.data;
+                    console.log(response)
+                    const users = result.items.map(item => {
+                        return {name: item.login,url: item.html_url, avatarUrl: item.avatar_url}
+                    })
+                    this.setState({
+                        loading: false,
+                        users
+                    })
                 })
-            })
+                .catch(error => {
+                    this.setState({
+                        loading: false,
+                        errorMsg: error.message
+                    })
+                })
+        });
     }
 
     render() {
