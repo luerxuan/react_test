@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
 
-import {INCREMENT, DECREMENT} from '../redux/action-types'
+import * as actions from '../redux/actions'
 
 export default class App extends Component{
 
@@ -8,26 +8,26 @@ export default class App extends Component{
         // 1.得到选择增加的数量
         const number = this.select.value*1;
         // 2.调用store的方法更新状态
-        this.props.store.dispatch({type: INCREMENT, data: number});
+        this.props.store.dispatch(actions.increment(number));
     }
 
     decrement = () => {
         const number = this.select.value*1;
-        this.props.store.dispatch({type: DECREMENT, data: number});
+        this.props.store.dispatch(actions.decrement(number));
     }
 
     incrementIfOdd = () => {
         const number = this.select.value*1;
         const count = this.props.store.getState();
         if(count%2===1){
-            this.props.store.dispatch({type: INCREMENT, data: number});
+            this.props.store.dispatch(actions.increment(number));
         }
     }
 
     incrementAsync = () => {
         const number = this.select.value*1;
         setTimeout(()=>{
-            this.props.store.dispatch({type: INCREMENT, data: number});
+            this.props.store.dispatch(actions.increment(number));
         },1000)
     }
 

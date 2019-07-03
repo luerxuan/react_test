@@ -1,11 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {createStore} from 'redux'
 
 import App from './components/app';
-import {counter} from './redux/reducers'
-
-const store = createStore(counter); // 内部会第一次调用redux函数得到初始state
+import store from './redux/store'
 
 function render(){
     ReactDOM.render(<App store = {store} />, document.getElementById('root'));
