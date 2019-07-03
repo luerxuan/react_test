@@ -1,44 +1,38 @@
 import React,{Component} from 'react'
 
-export default class App extends Component{
+import {INCREMENT, DECREMENT} from '../redux/action-types'
 
-    state = {
-        count: 0
-    }
+export default class App extends Component{
 
     increment = () => {
         // 1.得到选择增加的数量
         const number = this.select.value*1;
-        // 2.得到原本的count 并计算新的count值
-        const count = this.state.count;
-        // 3.更新状态
-        this.setState({count:count + number});
+        // 2.调用store的方法更新状态
+        this.props.store.dispatch({type: INCREMENT, data: number});
     }
 
     decrement = () => {
         const number = this.select.value*1;
-        const count = this.state.count;
-        this.setState({count:count - number});
+        this.props.store.dispatch({type: DECREMENT, data: number});
     }
 
     incrementIfOdd = () => {
         const number = this.select.value*1;
-        const count = this.state.count;
+        const count = this.props.store.getState();
         if(count%2===1){
-            this.setState({count:count + number})
+            this.props.store.dispatch({type: INCREMENT, data: number});
         }
     }
 
     incrementAsync = () => {
         const number = this.select.value*1;
-        const count = this.state.count;
         setTimeout(()=>{
-            this.setState({count:count + number})
+            this.props.store.dispatch({type: INCREMENT, data: number});
         },1000)
     }
 
     render() {
-        const {count} = this.state;
+        const count = this.props.store.getState();
         return (
             <div>
                 <p>click {count} times</p>
