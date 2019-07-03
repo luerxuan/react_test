@@ -1,46 +1,38 @@
 import React,{Component} from 'react'
-import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
 
-import {incrementCreator, decrement} from '../redux/actions'
+import * as actions from '../redux/actions'
 
-class App extends Component{
-
-    static propTypes = {
-        count: PropTypes.number.isRequired,
-        increment: PropTypes.func.isRequired,
-        decrement: PropTypes.func.isRequired
-    }
+export default class App extends Component{
 
     increment = () => {
         // 1.得到选择增加的数量
         const number = this.select.value*1;
         // 2.调用store的方法更新状态
-        this.props.increment(number);
+        this.props.store.dispatch(actions.increment(number));
     }
 
     decrement = () => {
         const number = this.select.value*1;
-        this.props.decrement(number);
+        this.props.store.dispatch(actions.decrement(number));
     }
 
     incrementIfOdd = () => {
         const number = this.select.value*1;
-        const {count} = this.props;
+        const count = this.props.store.getState();
         if(count%2===1){
-            this.props.increment(number);
+            this.props.store.dispatch(actions.increment(number));
         }
     }
 
     incrementAsync = () => {
         const number = this.select.value*1;
         setTimeout(()=>{
-            this.props.increment(number);
+            this.props.store.dispatch(actions.increment(number));
         },1000)
     }
 
     render() {
-        const {count} = this.props;
+        const count = this.props.store.getState();
         return (
             <div>
                 <p>click {count} times</p>
@@ -59,8 +51,3 @@ class App extends Component{
         )
     }
 }
-export default connect(
-    state => ({count: state}),
-    // increment 必须与propTypes声明的属性名一致   incrementCreator必须与action中的方法名一致，action中的方法名最好和propTypes声明的属性名一致，这里只是举例说明可以不一致
-    {increment: incrementCreator, decrement}
-)(App)
