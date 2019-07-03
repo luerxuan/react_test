@@ -1,10 +1,7 @@
 import React,{Component} from 'react'
 import PropTypes from 'prop-types'
-import {connect} from 'react-redux'
 
-import {incrementCreator, decrement} from '../redux/actions'
-
-class App extends Component{
+export default class Counter extends Component{
 
     static propTypes = {
         count: PropTypes.number.isRequired,
@@ -59,8 +56,4 @@ class App extends Component{
         )
     }
 }
-export default connect(
-    state => ({count: state}),
-    // increment 必须与propTypes声明的属性名一致   incrementCreator必须与action中的方法名一致，action中的方法名最好和propTypes声明的属性名一致，这里只是举例说明可以不一致
-    {increment: incrementCreator, decrement}
-)(App)
+
