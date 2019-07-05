@@ -1,23 +1,19 @@
 import React,{Component} from 'react'
-import CommentAdd from '../comment-add/comment-add'
-import CommentList from '../comment-list/comment-list'
+import CommentAdd from '../../components/comment-add/comment-add'
+import CommentList from '../../components/comment-list/comment-list'
 
 class App extends Component{
 
-    // constructor(props){
-    //     super(props)
-    //     this.state = {
-    //         comments: [
-    //             {name: 'Tom', content: 'React挺好的！'},
-    //             {name: 'Jack', content: 'React太难了！'}
-    //         ]
-    //     }
-    // }
-    state = {
-        comments: [
-            {username: 'Tom', content: 'React挺好的！'},
-            {username: 'Jack', content: 'React太难了！'}
-        ]
+    componentDidMount() {
+        // 模拟发送ajax请求，获取数据
+        setInterval(() => {
+            const comments = [
+                {username: 'Tom', content: 'React挺好的！'},
+                {username: 'Jack', content: 'React太难了！'}
+                ]
+            // 更新状态
+            this.setState({comments})
+        })
     }
 
     // 添加评论
